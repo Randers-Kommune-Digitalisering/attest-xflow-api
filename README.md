@@ -34,6 +34,7 @@ flowchart LR
 ```json
 {
     "sagsbehandler": "Fornavn Efternavn - DQ12345",
+    "requesterEmail": "fornavn.efternavn@example.dk",
     "medarbejderCPR": "010190-1234",
     "attestType": "0, 1, 2",
     "attestSubType": [
@@ -47,6 +48,7 @@ flowchart LR
 Valideringsregler:
 
 * `sagsbehandler`: `Navn - DQ-nummer` (DQ-nummerets format valideres ikke).
+* `requesterEmail`: e-mailadresse til underretninger om bestillingen.
 * `medarbejderCPR`: `DDMMÅÅ-XXXX` eller `DDMMÅÅXXXX`. Gemmes altid uden bindestreg.
 * `attestType`: `0`, `1` og/eller `2` – int eller kommasepareret string, ingen dubletter.
 * `attestSubType`: præcis ét objekt for hver bestilt attestType 0 og 2. AttestType 1 har ingen subtype (`[]` hvis kun 1 er bestilt).
@@ -60,7 +62,7 @@ Svar:
 
 ### Databasestruktur
 
-Modellerne er defineret i [`src/model.py`](/src/model.py). Denne app skriver til `authorized_sagsbehandler`, `attestation_request`, `attestation_order`, `order_event` og `notification`. `received_record` udfyldes af den app, der modtager og journaliserer attesterne.
+Modellerne installeres fra den fælles `attest-data-model`-pakke og importeres fra `attest_data_model`. Denne app skriver til `authorized_sagsbehandler`, `attestation_request`, `attestation_order`, `order_event` og `notification`. `received_record` udfyldes af den app, der modtager og journaliserer attesterne.
 
 ```mermaid
 erDiagram

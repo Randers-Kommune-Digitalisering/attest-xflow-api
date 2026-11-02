@@ -112,6 +112,7 @@ def test_validate_attest_request_invalid_fields(overrides: dict[str, object]) ->
 def make_payload(**overrides: object) -> dict[str, object]:
     payload = {
         "sagsbehandler": "Fornavn Efternavn - DQ00000",
+        "requesterEmail": "requester@example.test",
         "medarbejderCPR": "010190-1234",
         "attestSubType": [],
         "samtykke": True,

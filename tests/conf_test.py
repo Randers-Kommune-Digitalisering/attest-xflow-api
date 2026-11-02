@@ -14,7 +14,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
 from sqlalchemy.schema import CreateIndex
 
-from model import AttestationOrder, ReceivedRecord
+from attest_data_model import AttestationOrder, ReceivedRecord
 from utils.sftp import SFTPError
 
 os.environ.setdefault("FLASK_ENV", "dev")
@@ -46,7 +46,7 @@ def app() -> Iterator[Flask]:
         database_manager.return_value.get_session = sessionmaker(bind=engine)
         # main builds the WSGI app on import, so it must be (re)imported while mocks are active.
         sys.modules.pop("main", None)
-        model = importlib.import_module("model")
+        model = importlib.import_module("attest_data_model")
         model.Base.metadata.create_all(engine)
         main = importlib.import_module("main")
         app = main.create_app()
@@ -255,6 +255,7 @@ def test_receive_data_stores_cpr_without_hyphen(app: Flask, client: FlaskClient,
 def make_payload(sagsbehandler: str) -> dict[str, object]:
     return {
         "sagsbehandler": sagsbehandler,
+        "requesterEmail": "requester@example.test",
         "medarbejderCPR": "010190-1234",
         "attestType": "0, 1",
         "attestSubType": [{"attestType": 0, "subType": 1}],

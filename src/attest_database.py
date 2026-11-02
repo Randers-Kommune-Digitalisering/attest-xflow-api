@@ -12,9 +12,10 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from attest_validation import (extract_sagsbehandler_dq,
                                extract_sagsbehandler_name)
-from model import (AttestationOrder, AttestationRequest,
-                   AuthorizedSagsbehandler, Notification, NotificationType,
-                   OrderEvent, OrderStatus, SagsbehandlerRoles)
+from attest_data_model import (AttestationOrder, AttestationRequest,
+                               AuthorizedSagsbehandler, Notification,
+                               NotificationType, OrderEvent, OrderStatus,
+                               SagsbehandlerRoles)
 
 logger = logging.getLogger(__name__)
 
@@ -123,6 +124,7 @@ def _build_attestation_request(
     sagsbehandler = payload.get("sagsbehandler")
     requester_dq = extract_sagsbehandler_dq(sagsbehandler)
     requester_name = extract_sagsbehandler_name(sagsbehandler)
+    requester_email = payload.get("requesterEmail")
     cpr_number = payload.get("medarbejderCPR")
     subtype_entries = payload.get("attestSubType")
 
@@ -169,6 +171,7 @@ def _build_attestation_request(
         request_id=str(uuid.uuid4()),
         requester_dq=requester_dq,
         requester_name=requester_name,
+        requester_email=requester_email,
         subject_cpr=cpr_number.replace("-", ""),
         is_approved=is_approved,
         requested_at=requested_at,
