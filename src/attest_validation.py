@@ -15,6 +15,7 @@ class AttestType(IntEnum):
 
 REQUIRED_ATTEST_REQUEST_FIELDS = [
     "sagsbehandler",
+    "requesterEmail",
     "medarbejderCPR",
     "attestType",
     "attestSubType",
@@ -68,6 +69,10 @@ def validate_attest_request(
     if extract_sagsbehandler_dq(payload.get("sagsbehandler")) is None:
         errors.append(
             "sagsbehandler must be formatted as Name - DQ number.")
+
+    requester_email = payload.get("requesterEmail")
+    if not isinstance(requester_email, str) or not requester_email.strip():
+        errors.append("requesterEmail must be a non-empty string.")
 
     medarbejder_cpr = payload.get("medarbejderCPR")
     if not isinstance(medarbejder_cpr, str):

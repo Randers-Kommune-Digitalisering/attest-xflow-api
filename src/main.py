@@ -6,7 +6,7 @@ from prometheus_client import generate_latest
 from rkdigi import DatabaseManager
 
 from authorization import refresh_authorization
-from model import Base
+from attest_data_model import Base
 from utils.config import get_config_class_path
 from utils.logging import (count_error, http_error_counter, set_logging_configuration)
 
